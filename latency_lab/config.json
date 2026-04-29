@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Switching tts_model from eleven_turbo_v2_5 to eleven_flash_v2_5 will cut TTS TTFB from ~500ms to ~75ms, reducing total_ms p95 below 1215ms.",
+  "_hypothesis": "Enabling prompt_caching=true will cache the system prompt across fixtures, cutting TTFT p95 below 760ms and total_ms p95 below 1130ms.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
@@ -10,7 +10,7 @@
 
   "claude_streaming": true,
 
-  "prompt_caching": false,
+  "prompt_caching": true,
 
   "system_prompt_version": "v1_baseline",
   "_system_prompt_versions": "Defined in runner.py SYSTEM_PROMPTS dict. Add a new version there only if you must — but you can't edit runner.py, so prefer existing versions.",
