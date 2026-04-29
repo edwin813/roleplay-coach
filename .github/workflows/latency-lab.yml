@@ -2,7 +2,7 @@ name: latency-lab
 
 on:
   schedule:
-    - cron: "0 * * * *"  # every hour on the hour
+    - cron: "*/30 * * * *"  # every 30 minutes; concurrency.serialized so runs queue safely
   workflow_dispatch: {}
 
 # Disabled until repo variable LATENCY_LAB_ENABLED=true is set.
@@ -54,7 +54,7 @@ jobs:
           curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
             -d parse_mode=HTML \
-            --data-urlencode "text=🔬 Testing a new tweak — results in ~2 min..." \
+            --data-urlencode "text=🔬 Testing 3 new tweaks — results in ~10–15 min..." \
             > /dev/null
 
       - name: Probe API connectivity
@@ -72,7 +72,7 @@ jobs:
             -H "xi-api-key: $ELEVENLABS_API_KEY" \
             "https://api.elevenlabs.io/v1/user"
 
-      - name: Run agent (one experiment)
+      - name: Run agent (3 experiments per invocation)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
