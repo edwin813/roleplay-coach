@@ -26,15 +26,15 @@ The legal levers are documented inline in `config.json`. Do not invent fields th
    Avoid hypotheses already disproven in `experiments.jsonl` — don't re-run the same config.
 4. **Edit** `config.json` to reflect the new hypothesis. Change ONE lever per run unless prior data justifies a combo.
 5. **Run** `python latency_lab/runner.py`. It will execute the fixtures, grade quality, and append a row to `experiments.jsonl`.
-6. **Decide:**
-   - If new row's `total_ms_p95` < the last winning config's `total_ms_p95` AND `quality_score` ≥ 7.5 → **keep**: commit `config.json` + `experiments.jsonl` to the `latency-lab-results` branch with message `lab: WIN <hypothesis> — <old_p95>ms → <new_p95>ms (q=<score>)`.
-   - Else → **revert** `config.json` to the last winning config (find it in `experiments.jsonl`) and commit only `experiments.jsonl` with message `lab: LOSS <hypothesis> — <result>`.
-7. **Stop after one experiment.** GitHub Actions runs you again next hour.
+6. **Decide and edit files. DO NOT run any git commands. The workflow handles all commits and pushes.**
+   - If new row's `total_ms_p95` < the last winning config's `total_ms_p95` AND `quality_score` ≥ 7.5 → **WIN**: leave `config.json` as-is (the new winning config). Edit the last row of `experiments.jsonl` so its `decision` field is `"WIN"` and `notes` contains a one-sentence summary like `"sonnet-4-6 → haiku-4-5: p95 1931→1275, q 8.5→9.0"`.
+   - Else → **LOSS**: revert `config.json` to the last winning config (find it in `experiments.jsonl` — the most recent row with `decision: WIN`, or the first baseline row if no WINs yet). Edit the last row of `experiments.jsonl` so its `decision` field is `"LOSS"` and `notes` explains why.
+7. **Stop after one experiment.** Print one line: `lab: <WIN|LOSS|ERROR> — <one-sentence summary>`. GitHub Actions runs you again next hour.
 
 ## Hard rules
 
-- One hypothesis per run. No bundled changes unless you have a strong reason and you cite it in the commit message.
-- Never push to `main`. Only `latency-lab-results`.
+- **Never run `git` commands.** The workflow handles commits and pushes. You only edit files.
+- One hypothesis per run. No bundled changes unless you have a strong reason and you cite it in the notes.
 - Never edit `runner.py` or `grader.py`. If they're broken, log the failure to `experiments.jsonl` with `error: ...` and stop.
 - Never modify `fixtures.json` — comparability across runs depends on it being frozen.
 - If `quality_score` drops below 7.5, that's a hard fail regardless of latency. Revert.
