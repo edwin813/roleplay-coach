@@ -1,7 +1,8 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "claude_model": "claude-sonnet-4-6",
+  "_hypothesis": "Switching claude_model from sonnet-4-6 to haiku-4-5 will cut TTFT ~40%, reducing total_ms p95 well below 1931ms.",
+  "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
   "claude_max_tokens": 150,
