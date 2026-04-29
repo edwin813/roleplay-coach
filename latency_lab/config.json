@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Switching claude_model from sonnet-4-6 to haiku-4-5 will cut TTFT ~40%, reducing total_ms p95 well below 1931ms.",
+  "_hypothesis": "Switching tts_model from eleven_turbo_v2_5 to eleven_flash_v2_5 will cut TTS TTFB from ~500ms to ~75ms, reducing total_ms p95 below 1215ms.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
@@ -18,7 +18,7 @@
   "tts_provider": "elevenlabs",
   "_tts_provider_options": ["elevenlabs", "google"],
 
-  "tts_model": "eleven_turbo_v2_5",
+  "tts_model": "eleven_flash_v2_5",
   "_tts_model_options_elevenlabs": ["eleven_turbo_v2_5", "eleven_flash_v2_5"],
   "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
 
