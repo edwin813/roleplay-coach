@@ -1,0 +1,33 @@
+{% extends "manager/_base.html" %}
+{% block title %}Edit Roleplay — {{ company_id }}{% endblock %}
+
+{% block content %}
+<section class="card">
+    <div class="mgr-row-spread">
+        <div>
+            <h2>{{ script.display_company or script.name or company_id }}</h2>
+            <p class="mgr-hint"><code>{{ company_id }}</code> · {% if script.published %}Published{% else %}Draft{% endif %}</p>
+        </div>
+        <div>
+            <a href="{{ url_for('manager.edit_playbook', company_id=company_id) }}" class="btn btn-secondary btn-sm">Playbook</a>
+            <a href="{{ url_for('manager.dashboard') }}" class="btn btn-secondary btn-sm">Back</a>
+        </div>
+    </div>
+
+    <p class="mgr-hint">This is the AI customer's roleplay config — persona, moods, pain points, and objections by difficulty level. The shape must keep <code>persona.sponsors</code> with at least one entry, and at least one objection at any difficulty.</p>
+
+    <form method="post" action="{{ url_for('manager.edit_roleplay', company_id=company_id) }}">
+        <div class="form-group">
+            <label for="script_json">Roleplay config JSON</label>
+            <textarea id="script_json" name="script_json" rows="28" spellcheck="false">{{ script_json }}</textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+
+    <form method="post" action="{{ url_for('manager.publish_toggle', company_id=company_id) }}" style="margin-top:12px;">
+        <button type="submit" class="btn btn-{% if script.published %}secondary{% else %}primary{% endif %} btn-sm">
+            {{ 'Unpublish' if script.published else 'Publish' }}
+        </button>
+    </form>
+</section>
+{% endblock %}

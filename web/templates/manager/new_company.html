@@ -1,0 +1,64 @@
+{% extends "manager/_base.html" %}
+{% block title %}New Company — Manager{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>Add a New Company / Script</h2>
+    <p class="mgr-hint">Upload your call script (the playbook your trainees will recite). After upload, Claude will read it and suggest a starting AI customer config — you'll review and edit before publishing.</p>
+
+    <form method="post" action="{{ url_for('manager.new_company_submit') }}" enctype="multipart/form-data" id="new-company-form">
+        <div class="form-group">
+            <label for="display_company">Display name (what trainees see in the dropdown)</label>
+            <input type="text" id="display_company" name="display_company" required placeholder="e.g. AO Plus Lead — Q2 2026">
+        </div>
+
+        <div class="form-group">
+            <label>Script source</label>
+            <div class="mgr-tabs" role="tablist">
+                <button type="button" class="mgr-tab active" data-target="paste">Paste text</button>
+                <button type="button" class="mgr-tab" data-target="pdf">Upload PDF</button>
+                <button type="button" class="mgr-tab" data-target="gdoc">Google Doc URL</button>
+            </div>
+        </div>
+
+        <input type="hidden" name="source_type" id="source_type" value="paste">
+
+        <div class="mgr-tab-panel" data-panel="paste">
+            <div class="form-group">
+                <label for="paste_text">Paste your script</label>
+                <textarea id="paste_text" name="paste_text" rows="12" placeholder="Paste the script text here..."></textarea>
+            </div>
+        </div>
+
+        <div class="mgr-tab-panel" data-panel="pdf" hidden>
+            <div class="form-group">
+                <label for="pdf_file">Upload a PDF</label>
+                <input type="file" id="pdf_file" name="pdf_file" accept="application/pdf">
+                <p class="mgr-hint">Image-only/scanned PDFs won't extract text. Try the paste-text option instead.</p>
+            </div>
+        </div>
+
+        <div class="mgr-tab-panel" data-panel="gdoc" hidden>
+            <div class="form-group">
+                <label for="gdoc_url">Google Doc URL</label>
+                <input type="text" id="gdoc_url" name="gdoc_url" placeholder="https://docs.google.com/document/d/...">
+                <p class="mgr-hint">The doc must be shared with the system's Google account, or set to "Anyone with the link can view".</p>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Upload &amp; Continue</button>
+        <a href="{{ url_for('manager.dashboard') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</section>
+
+<script>
+document.querySelectorAll('.mgr-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+        document.querySelectorAll('.mgr-tab').forEach(t => t.classList.toggle('active', t === tab));
+        document.querySelectorAll('.mgr-tab-panel').forEach(p => p.hidden = p.dataset.panel !== target);
+        document.getElementById('source_type').value = target;
+    });
+});
+</script>
+{% endblock %}

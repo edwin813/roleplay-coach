@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ agency_name }} — Voice Training</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <script>
+        // Tenancy context injected by the trainee blueprint
+        window.TRAINEE_CONTEXT = {
+            agency_slug: {{ agency_slug | tojson }},
+            agency_name: {{ agency_name | tojson }},
+            access_code: {{ access_code | tojson }}
+        };
+    </script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🎙️ {{ agency_name }}</h1>
+            <p>Practice objection handling with AI-powered voice simulation</p>
+        </header>
+
+        <!-- Setup Screen -->
+        <div id="setup-screen" class="screen active">
+            <div class="card">
+                <h2>Start Training Session</h2>
+                <form id="setup-form">
+                    <div class="form-group">
+                        <label for="agent-name">Your Name:</label>
+                        <input type="text" id="agent-name" required placeholder="Enter your name">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="company-select">Company / Script:</label>
+                        <select id="company-select">
+                            <option value="">Loading scripts…</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="difficulty">Difficulty Level:</label>
+                        <select id="difficulty">
+                            <option value="beginner">Beginner - Basic objections</option>
+                            <option value="intermediate" selected>Intermediate - Standard scenarios</option>
+                            <option value="advanced">Advanced - Complex situations</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 15px; text-align: center;">
+                        <small id="connection-status-text" style="color: #ff9800;">Connecting...</small>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary" disabled>Connecting...</button>
+                    <button type="button" id="view-script-setup" class="btn btn-secondary" style="margin-top:8px;display:none;">📄 View Script</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Training Screen -->
+        <div id="training-screen" class="screen">
+            <div class="status-bar">
+                <div class="status-item">
+                    <strong>Agent:</strong> <span id="current-agent">-</span>
+                </div>
+                <div class="status-item">
+                    <strong>Phase:</strong> <span id="current-phase">-</span>
+                </div>
+                <div class="status-item">
+                    <strong>Status:</strong> <span id="connection-status" class="status-dot"></span>
+                </div>
+                <div class="status-item">
+                    <button type="button" id="view-script-call" class="btn btn-secondary btn-sm">📄 View Script</button>
+                </div>
+            </div>
+
+            <div class="conversation-container">
+                <div id="conversation" class="conversation"></div>
+            </div>
+
+            <div class="controls">
+                <div class="control-row">
+                    <button id="mic-button" class="btn btn-mic" disabled>
+                        <span class="mic-icon">🎤</span>
+                        <span class="mic-text">Click to Speak</span>
+                    </button>
+                    <button id="end-session-button" class="btn btn-end" disabled title="End Session">
+                        <span class="end-icon">📞</span>
+                        <span class="end-text">End Session</span>
+                    </button>
+                </div>
+                <p class="instructions">The mic auto-listens when it's your turn. Tap <strong>End Session</strong> any time to hang up and see your score.</p>
+            </div>
+
+            <div id="transcript-panel" class="transcript-panel">
+                <h3>Live Transcript</h3>
+                <div id="live-transcript"></div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div id="results-screen" class="screen">
+            <div class="card">
+                <h2>🎯 Training Session Complete!</h2>
+
+                <div class="score-display">
+                    <div class="final-score">
+                        <span class="score-label">Final Score</span>
+                        <span id="final-score" class="score-value">-</span>
+                        <span id="grade-badge" class="grade-badge">-</span>
+                    </div>
+                </div>
+
+                <div class="score-breakdown">
+                    <h3>Score Breakdown</h3>
+                    <div id="category-scores"></div>
+                </div>
+
+                <div class="feedback-section">
+                    <h3>Feedback</h3>
+                    <div id="feedback-content"></div>
+                </div>
+
+                <div class="actions">
+                    <button id="view-transcript" class="btn btn-secondary">View Full Transcript</button>
+                    <button id="start-new" class="btn btn-primary">Start New Session</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/static/js/app.js"></script>
+</body>
+</html>

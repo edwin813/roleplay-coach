@@ -1,0 +1,63 @@
+{% extends "manager/_base.html" %}
+{% block title %}{{ manager.agency_name }} — Dashboard{% endblock %}
+
+{% block content %}
+<section class="card">
+    <h2>{{ manager.agency_name }}</h2>
+    <p class="mgr-hint">Agency slug: <code>{{ manager.agency_slug }}</code></p>
+
+    <div class="mgr-trainee-block">
+        <strong>Trainee URL</strong>
+        <div class="mgr-url-row">
+            <code id="trainee-url">{{ trainee_url }}</code>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="navigator.clipboard.writeText(document.getElementById('trainee-url').textContent); this.textContent='Copied!'; setTimeout(()=>this.textContent='Copy',1500)">Copy</button>
+        </div>
+        <p class="mgr-hint">Share this with your trainees. Anyone with the URL can practice against your agency's published scripts.</p>
+        <form method="post" action="{{ url_for('manager.rotate_code') }}" onsubmit="return confirm('Rotate the code? The old URL will stop working immediately.')">
+            <button type="submit" class="btn btn-secondary btn-sm">Rotate access code</button>
+        </form>
+    </div>
+</section>
+
+<section class="card">
+    <div class="mgr-row-spread">
+        <h3>Companies / Scripts</h3>
+        <a href="{{ url_for('manager.new_company_form') }}" class="btn btn-primary btn-sm">+ New Company</a>
+    </div>
+    {% if not scripts %}
+        <p class="mgr-empty">No scripts yet. Click <strong>New Company</strong> to upload your first one.</p>
+    {% else %}
+        <table class="mgr-table">
+            <thead>
+                <tr><th>Display name</th><th>Status</th><th>Actions</th></tr>
+            </thead>
+            <tbody>
+            {% for s in scripts %}
+                <tr>
+                    <td>
+                        <strong>{{ s.display_company or s.name or s.id }}</strong><br>
+                        <small><code>{{ s.id }}</code></small>
+                    </td>
+                    <td>
+                        {% if s.published %}
+                            <span class="mgr-pill mgr-pill-live">Published</span>
+                        {% else %}
+                            <span class="mgr-pill mgr-pill-draft">Draft</span>
+                        {% endif %}
+                    </td>
+                    <td class="mgr-actions">
+                        <a href="{{ url_for('manager.edit_roleplay', company_id=s.id) }}" class="btn btn-secondary btn-sm">Edit Roleplay</a>
+                        <a href="{{ url_for('manager.edit_playbook', company_id=s.id) }}" class="btn btn-secondary btn-sm">Playbook</a>
+                        <form method="post" action="{{ url_for('manager.publish_toggle', company_id=s.id) }}" style="display:inline;">
+                            <button type="submit" class="btn btn-{% if s.published %}secondary{% else %}primary{% endif %} btn-sm">
+                                {{ 'Unpublish' if s.published else 'Publish' }}
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</section>
+{% endblock %}

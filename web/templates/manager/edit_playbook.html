@@ -1,0 +1,71 @@
+{% extends "manager/_base.html" %}
+{% block title %}Playbook — {{ company_id }}{% endblock %}
+
+{% block content %}
+<section class="card">
+    <div class="mgr-row-spread">
+        <div>
+            <h2>Agent Playbook · {{ company_id }}</h2>
+            {% if meta.source_type %}
+                <p class="mgr-hint">Source: <code>{{ meta.source_type }}</code> · {{ meta.source_ref or '' }} · last updated {{ meta.updated_at or 'unknown' }}</p>
+            {% endif %}
+        </div>
+        <div>
+            <a href="{{ url_for('manager.edit_roleplay', company_id=company_id) }}" class="btn btn-secondary btn-sm">Roleplay Config</a>
+            <a href="{{ url_for('manager.dashboard') }}" class="btn btn-secondary btn-sm">Back</a>
+        </div>
+    </div>
+
+    <h3>Current playbook</h3>
+    {% if markdown %}
+        <pre class="mgr-playbook">{{ markdown }}</pre>
+    {% else %}
+        <p class="mgr-empty">No playbook saved.</p>
+    {% endif %}
+
+    <h3>Replace</h3>
+    <form method="post" action="{{ url_for('manager.edit_playbook', company_id=company_id) }}" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Source</label>
+            <div class="mgr-tabs">
+                <button type="button" class="mgr-tab active" data-target="paste">Paste</button>
+                <button type="button" class="mgr-tab" data-target="pdf">PDF</button>
+                <button type="button" class="mgr-tab" data-target="gdoc">Google Doc</button>
+            </div>
+        </div>
+        <input type="hidden" name="source_type" id="source_type" value="paste">
+
+        <div class="mgr-tab-panel" data-panel="paste">
+            <div class="form-group">
+                <label for="paste_text">New playbook text</label>
+                <textarea id="paste_text" name="paste_text" rows="12"></textarea>
+            </div>
+        </div>
+        <div class="mgr-tab-panel" data-panel="pdf" hidden>
+            <div class="form-group">
+                <label for="pdf_file">Upload a PDF</label>
+                <input type="file" id="pdf_file" name="pdf_file" accept="application/pdf">
+            </div>
+        </div>
+        <div class="mgr-tab-panel" data-panel="gdoc" hidden>
+            <div class="form-group">
+                <label for="gdoc_url">Google Doc URL</label>
+                <input type="text" id="gdoc_url" name="gdoc_url" placeholder="https://docs.google.com/document/d/...">
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Replace Playbook</button>
+    </form>
+</section>
+
+<script>
+document.querySelectorAll('.mgr-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const target = tab.dataset.target;
+        document.querySelectorAll('.mgr-tab').forEach(t => t.classList.toggle('active', t === tab));
+        document.querySelectorAll('.mgr-tab-panel').forEach(p => p.hidden = p.dataset.panel !== target);
+        document.getElementById('source_type').value = target;
+    });
+});
+</script>
+{% endblock %}

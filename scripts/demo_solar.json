@@ -1,0 +1,34 @@
+{
+  "id": "demo_solar",
+  "agency_slug": "default",
+  "owner_email": "edwin@brandedfeel.com",
+  "display_company": "Demo — Residential Solar (Cold Outbound)",
+  "published": true,
+  "name": "Demo — Residential Solar (Cold Outbound)",
+  "description": "Cold outbound call to a homeowner about solar panel installation. Used to demo multi-company support.",
+  "persona": {
+    "type": "cold_homeowner",
+    "sponsors": [
+      { "name": "your neighbor", "relationship": "neighbor" }
+    ],
+    "moods": ["skeptical", "busy", "annoyed", "curious"],
+    "pain_points": ["cost", "trust", "roof_damage", "contracts"],
+    "remembers_sponsorship_probability": 0.1
+  },
+  "objections": {
+    "beginner": [
+      { "type": "who_are_you", "statement": "Wait, who is this and how did you get my number?", "weight": 8 },
+      { "type": "not_interested", "statement": "I'm not interested in solar.", "weight": 9 },
+      { "type": "renting", "statement": "I'm not even sure I'll be in this house long enough to make it worth it.", "weight": 7 }
+    ],
+    "intermediate": [
+      { "type": "cost", "statement": "Solar panels cost a fortune. I can't afford that.", "weight": 10 },
+      { "type": "roof_concern", "statement": "I'm worried about them damaging my roof.", "weight": 9 },
+      { "type": "shade", "statement": "My yard has too many trees, I don't think I get enough sun.", "weight": 7 }
+    ],
+    "advanced": [
+      { "type": "spouse_decision", "statement": "I'd have to talk to my spouse before deciding anything like this.", "weight": 10 },
+      { "type": "scam_concern", "statement": "Honestly, every solar company that's called me has felt like a scam. How do I know you're different?", "weight": 10 }
+    ]
+  }
+}

@@ -1,0 +1,41 @@
+# Temporary files
+.tmp/
+
+# Environment and credentials
+.env
+credentials.json
+token.json
+
+# Manager backend tenant data
+managers.json
+playbooks/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+server.log
+
+# Node (if web/ ever gets npm)
+node_modules/
+
+# Misc
+.cache/

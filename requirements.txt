@@ -1,0 +1,49 @@
+# Core dependencies
+anthropic
+python-dotenv
+requests
+
+# Google API
+google-api-python-client
+google-auth-httplib2
+google-auth-oauthlib
+
+# Modal (for webhooks)
+modal
+
+# Data processing
+pandas
+openpyxl
+
+# Web scraping (if needed)
+beautifulsoup4
+selenium
+
+# Utilities
+pydantic
+
+# Web server for voice training platform
+flask
+flask-cors
+flask-socketio
+flask-limiter
+
+# Auth + file parsing for manager backend
+bcrypt
+pypdf
+
+# Voice processing
+deepgram-sdk
+google-cloud-texttospeech
+elevenlabs
+
+# Audio processing
+pydub
+soundfile
+
+# WebSockets
+python-socketio
+websockets
+
+# Additional utilities
+python-dateutil

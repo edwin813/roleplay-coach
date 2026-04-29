@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Socket.IO Connection Test</title>
+    <script src="https://cdn.socket.io/4.5.4/socket.io.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .status {
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 8px;
+            font-size: 18px;
+        }
+        .connecting { background: #fff3cd; color: #856404; }
+        .connected { background: #d4edda; color: #155724; }
+        .error { background: #f8d7da; color: #721c24; }
+        #logs {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-height: 400px;
+            overflow-y: auto;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        .log-entry {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+    </style>
+</head>
+<body>
+    <h1>Socket.IO Connection Test</h1>
+
+    <div id="status" class="status connecting">
+        🔌 Connecting to Socket.IO...
+    </div>
+
+    <h2>Connection Logs:</h2>
+    <div id="logs"></div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const logsDiv = document.getElementById('logs');
+
+        function addLog(message, type = 'info') {
+            const entry = document.createElement('div');
+            entry.className = 'log-entry';
+            entry.textContent = `[${new Date().toLocaleTimeString()}] ${type.toUpperCase()}: ${message}`;
+            logsDiv.appendChild(entry);
+            logsDiv.scrollTop = logsDiv.scrollHeight;
+            console.log(message);
+        }
+
+        addLog('Starting Socket.IO connection test...');
+        addLog('Loading Socket.IO library...');
+
+        if (typeof io === 'undefined') {
+            addLog('ERROR: Socket.IO library not loaded!', 'error');
+            statusDiv.textContent = '❌ Socket.IO library failed to load';
+            statusDiv.className = 'status error';
+        } else {
+            addLog('Socket.IO library loaded successfully');
+            addLog('Creating socket connection...');
+
+            try {
+                const socket = io({
+                    transports: ['websocket', 'polling'],
+                    reconnection: true,
+                    reconnectionAttempts: 3,
+                    reconnectionDelay: 1000,
+                    timeout: 10000
+                });
+
+                addLog('Socket object created');
+
+                socket.on('connect', () => {
+                    addLog(`Connected! Socket ID: ${socket.id}`, 'success');
+                    statusDiv.textContent = `✅ Connected! ID: ${socket.id}`;
+                    statusDiv.className = 'status connected';
+                });
+
+                socket.on('disconnect', (reason) => {
+                    addLog(`Disconnected. Reason: ${reason}`, 'warning');
+                    statusDiv.textContent = '⚠️ Disconnected from server';
+                    statusDiv.className = 'status connecting';
+                });
+
+                socket.on('connect_error', (error) => {
+                    addLog(`Connection error: ${error.message}`, 'error');
+                    addLog(`Error details: ${JSON.stringify(error)}`, 'error');
+                    statusDiv.textContent = `❌ Connection Error: ${error.message}`;
+                    statusDiv.className = 'status error';
+                });
+
+                socket.on('connect_timeout', () => {
+                    addLog('Connection timeout!', 'error');
+                    statusDiv.textContent = '❌ Connection Timeout';
+                    statusDiv.className = 'status error';
+                });
+
+                socket.on('error', (error) => {
+                    addLog(`Socket error: ${error}`, 'error');
+                });
+
+                socket.on('reconnect_attempt', (attemptNumber) => {
+                    addLog(`Reconnection attempt #${attemptNumber}`, 'warning');
+                });
+
+                socket.on('reconnect', (attemptNumber) => {
+                    addLog(`Reconnected after ${attemptNumber} attempts`, 'success');
+                });
+
+                socket.on('reconnect_failed', () => {
+                    addLog('Reconnection failed!', 'error');
+                    statusDiv.textContent = '❌ Reconnection Failed';
+                    statusDiv.className = 'status error';
+                });
+
+                addLog('Event listeners attached');
+
+                // Check status after 5 seconds
+                setTimeout(() => {
+                    addLog('--- Status Check (5 seconds) ---');
+                    addLog(`Connected: ${socket.connected}`);
+                    addLog(`Disconnected: ${socket.disconnected}`);
+                    addLog(`Socket ID: ${socket.id || 'null'}`);
+
+                    if (!socket.connected) {
+                        addLog('Socket still not connected after 5 seconds!', 'error');
+                    }
+                }, 5000);
+
+            } catch (error) {
+                addLog(`Exception creating socket: ${error.message}`, 'error');
+                addLog(`Stack: ${error.stack}`, 'error');
+                statusDiv.textContent = `❌ Exception: ${error.message}`;
+                statusDiv.className = 'status error';
+            }
+        }
+    </script>
+</body>
+</html>

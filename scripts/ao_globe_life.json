@@ -1,0 +1,39 @@
+{
+  "id": "ao_globe_life",
+  "agency_slug": "default",
+  "owner_email": "edwin@brandedfeel.com",
+  "display_company": "AO / Globe Life — Plus Lead Benefits",
+  "published": true,
+  "name": "AO / Globe Life — Plus Lead Benefits",
+  "description": "Inbound benefits enrollment call. Customer was sponsored by a friend or family member.",
+  "persona": {
+    "type": "sponsored_lead",
+    "sponsors": [
+      { "name": "Sarah", "relationship": "sister" },
+      { "name": "Mike", "relationship": "brother" },
+      { "name": "Mom", "relationship": "mother" },
+      { "name": "Dad", "relationship": "father" },
+      { "name": "John", "relationship": "friend" },
+      { "name": "Lisa", "relationship": "cousin" }
+    ],
+    "moods": ["curious", "skeptical", "busy", "confused"],
+    "pain_points": ["time", "cost", "trust", "coverage"],
+    "remembers_sponsorship_probability": 0.6
+  },
+  "objections": {
+    "beginner": [
+      { "type": "confusion", "statement": "What is this again? What's the benefit package?", "weight": 9 },
+      { "type": "no_text", "statement": "I didn't get a text message.", "weight": 6 },
+      { "type": "timing", "statement": "How long is this going to take?", "weight": 7 }
+    ],
+    "intermediate": [
+      { "type": "not_interested", "statement": "I'm not interested.", "weight": 10 },
+      { "type": "cost", "statement": "Wait, does this cost money?", "weight": 10 },
+      { "type": "coverage", "statement": "We already have life insurance through my job.", "weight": 8 }
+    ],
+    "advanced": [
+      { "type": "need_permission", "statement": "I need to talk to my [sponsor_relationship] first before I do anything.", "weight": 10 },
+      { "type": "busy", "statement": "Look, I'm really busy right now. Can you just call me back some other time?", "weight": 9 }
+    ]
+  }
+}

@@ -1,0 +1,20 @@
+{% extends "manager/_base.html" %}
+{% block title %}Sign in — Manager{% endblock %}
+
+{% block content %}
+<div class="card mgr-card-narrow">
+    <h2>Manager Sign In</h2>
+    <form method="post" action="{{ url_for('manager.login') }}">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autofocus>
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" class="btn btn-primary" style="width:100%;">Sign in</button>
+    </form>
+    <p class="mgr-hint">No login? Run <code>python execution/add_manager.py</code> to seed one.</p>
+</div>
+{% endblock %}

@@ -1,0 +1,140 @@
+/* Manager backend styles — layered on top of style.css */
+
+.mgr-shell {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.mgr-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: white;
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin-bottom: 16px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+.mgr-brand {
+    font-weight: 700;
+    color: #333;
+    text-decoration: none;
+    font-size: 1.1em;
+}
+.mgr-logout {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.mgr-email {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.mgr-flashes {
+    margin-bottom: 16px;
+}
+.mgr-flash {
+    padding: 10px 14px;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+.mgr-flash-success { background: #e8f5e9; color: #1b5e20; border: 1px solid #a5d6a7; }
+.mgr-flash-error   { background: #ffebee; color: #b71c1c; border: 1px solid #ef9a9a; }
+.mgr-flash-info    { background: #e3f2fd; color: #0d47a1; border: 1px solid #90caf9; }
+
+.mgr-main { display: flex; flex-direction: column; gap: 16px; }
+
+.card { margin-bottom: 0; }
+.mgr-card-narrow { max-width: 420px; margin: 60px auto; }
+
+.mgr-hint { color: #666; font-size: 0.9em; margin-top: 4px; }
+.mgr-hint code, .mgr-trainee-block code, .mgr-row-spread code {
+    background: #f5f5f5; padding: 2px 6px; border-radius: 4px; font-size: 0.95em;
+}
+
+.mgr-trainee-block {
+    margin-top: 16px;
+    padding: 14px;
+    background: #f9f9f9;
+    border-left: 4px solid #667eea;
+    border-radius: 6px;
+}
+.mgr-url-row {
+    display: flex; gap: 10px; align-items: center; margin: 8px 0;
+}
+.mgr-url-row code {
+    flex: 1; padding: 8px 12px; word-break: break-all; font-size: 0.95em;
+}
+
+.mgr-row-spread {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    margin-bottom: 12px;
+}
+
+.mgr-table { width: 100%; border-collapse: collapse; }
+.mgr-table th, .mgr-table td {
+    text-align: left; padding: 12px 8px; border-bottom: 1px solid #eee;
+}
+.mgr-table th { font-size: 0.85em; color: #666; text-transform: uppercase; }
+.mgr-table td small { color: #999; }
+.mgr-actions { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.mgr-pill {
+    display: inline-block; padding: 3px 10px; border-radius: 12px;
+    font-size: 0.8em; font-weight: 600;
+}
+.mgr-pill-live  { background: #c8e6c9; color: #1b5e20; }
+.mgr-pill-draft { background: #fff3e0; color: #e65100; }
+
+.mgr-empty {
+    color: #888; font-style: italic; padding: 20px 0;
+}
+
+.mgr-tabs {
+    display: flex; gap: 6px;
+    border-bottom: 2px solid #eee;
+    margin-bottom: 12px;
+}
+.mgr-tab {
+    background: none; border: none; padding: 10px 16px;
+    cursor: pointer; color: #666; font-weight: 600; font-size: 0.95em;
+    border-bottom: 2px solid transparent; margin-bottom: -2px;
+}
+.mgr-tab.active { color: #667eea; border-bottom-color: #667eea; }
+
+.mgr-tab-panel { padding-top: 4px; }
+
+.mgr-playbook {
+    background: #f9f9f9;
+    padding: 14px;
+    border-radius: 8px;
+    white-space: pre-wrap;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+    line-height: 1.5;
+    max-height: 380px;
+    overflow-y: auto;
+    border: 1px solid #eee;
+    font-size: 0.95em;
+}
+
+textarea#script_json {
+    width: 100%;
+    font-family: 'Courier New', monospace;
+    font-size: 0.9em;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    resize: vertical;
+}
+textarea#paste_text {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    resize: vertical;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.btn-sm { padding: 6px 14px; font-size: 0.85em; }
