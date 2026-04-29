@@ -16,25 +16,26 @@ The legal levers are documented inline in `config.json`. Do not invent fields th
 
 ## What you do, in order
 
+You run **3 experiments per invocation**, sequentially, in a loop. Each experiment tests one distinct hypothesis. The 3 hypotheses must be non-overlapping (different levers, or clearly different values on the same lever).
+
 1. **Read** `latency_lab/experiments.jsonl`. Every prior run is logged there with the full config and results. Skim the last 20 entries minimum.
-2. **Read** `latency_lab/config.json` — the current best-known config.
-3. **Form one hypothesis.** Pick a single change you believe will lower `total_ms` p95 without dropping `quality_score` below 7.5. Examples:
-   - "Switching `claude_model` from sonnet-4-6 to haiku-4-5 will cut TTFT ~40%."
-   - "Reducing `claude_max_tokens` from 150 to 80 will cut total Claude time."
-   - "Switching `tts_model` from `eleven_turbo_v2_5` to `eleven_flash_v2_5` will cut TTS TTFB."
-   - "Enabling `prompt_caching` will cut TTFT on cached prefixes."
-   Avoid hypotheses already disproven in `experiments.jsonl` — don't re-run the same config.
-4. **Edit** `config.json` to reflect the new hypothesis. Change ONE lever per run unless prior data justifies a combo.
-5. **Run** `python latency_lab/runner.py`. It will execute the fixtures, grade quality, and append a row to `experiments.jsonl`.
-6. **Decide and edit files. DO NOT run any git commands. The workflow handles all commits and pushes.**
-   - If new row's `total_ms_p95` < the last winning config's `total_ms_p95` AND `quality_score` ≥ 7.5 → **WIN**: leave `config.json` as-is (the new winning config). Edit the last row of `experiments.jsonl` so its `decision` field is `"WIN"` and `notes` contains a one-sentence summary like `"sonnet-4-6 → haiku-4-5: p95 1931→1275, q 8.5→9.0"`.
-   - Else → **LOSS**: revert `config.json` to the last winning config (find it in `experiments.jsonl` — the most recent row with `decision: WIN`, or the first baseline row if no WINs yet). Edit the last row of `experiments.jsonl` so its `decision` field is `"LOSS"` and `notes` explains why.
-7. **Stop after one experiment.** Print one line: `lab: <WIN|LOSS|ERROR> — <one-sentence summary>`. GitHub Actions runs you again next hour.
+2. **Read** `latency_lab/config.json` — the current best-known config. Remember this as the "baseline" you'll revert to between LOSS experiments.
+3. **Form 3 distinct hypotheses** up front. Each must change exactly one lever (or one combo if prior data justifies it). Hypotheses must not overlap with each other or with disproven configs in `experiments.jsonl`. Examples of a valid trio:
+   - H1: "Switching `claude_model` from sonnet-4-6 to haiku-4-5 will cut TTFT ~40%."
+   - H2: "Reducing `claude_max_tokens` from 150 to 80 will cut total Claude time."
+   - H3: "Switching `tts_model` from `eleven_turbo_v2_5` to `eleven_flash_v2_5` will cut TTS TTFB."
+4. **For each hypothesis (1, 2, 3), in turn:**
+   a. **Edit** `config.json` to reflect that hypothesis (starting from the current winning config).
+   b. **Run** `python latency_lab/runner.py`. It executes the fixtures, grades quality, and appends a row to `experiments.jsonl`.
+   c. **Decide.** If new row's `total_ms_p95` < the most recent WIN's `total_ms_p95` AND `quality_score` ≥ 7.5 → **WIN**: leave `config.json` as-is (it becomes the new winning config for the remaining experiments in this invocation). Edit the just-appended row of `experiments.jsonl` so its `decision` field is `"WIN"` and `notes` is a one-sentence summary like `"sonnet-4-6 → haiku-4-5: p95 1931→1275, q 8.5→9.0"`.
+   d. Else → **LOSS**: revert `config.json` to the most recent WIN config (or the baseline you noted in step 2 if no WINs yet this invocation). Edit the just-appended row of `experiments.jsonl` so its `decision` field is `"LOSS"` and `notes` explains why.
+5. **DO NOT run any git commands. The workflow handles all commits and pushes.** You only edit files.
+6. **Stop after the 3rd experiment.** Print one final line: `lab: <N>/3 WINs — <one-sentence summary of the best result>`. GitHub Actions runs you again in 30 minutes.
 
 ## Hard rules
 
 - **Never run `git` commands.** The workflow handles commits and pushes. You only edit files.
-- One hypothesis per run. No bundled changes unless you have a strong reason and you cite it in the notes.
+- 3 hypotheses per invocation, run sequentially. Each is one lever change (or one combo with cited justification). No bundled changes within a single experiment.
 - Never edit `runner.py` or `grader.py`. If they're broken, log the failure to `experiments.jsonl` with `error: ...` and stop.
 - Never modify `fixtures.json` — comparability across runs depends on it being frozen.
 - If `quality_score` drops below 7.5, that's a hard fail regardless of latency. Revert.
@@ -77,4 +78,4 @@ The runner writes most of this for you. Your job is to set `hypothesis` before r
 
 ## When you finish
 
-Print one line: `lab: <decision> — <one-sentence summary>`. That's the only output that matters.
+After all 3 experiments, print one line: `lab: <N>/3 WINs — <one-sentence summary of best result>`. That's the only output that matters.
