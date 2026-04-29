@@ -5,8 +5,7 @@ on:
     - cron: "0 * * * *"  # every hour on the hour
   workflow_dispatch: {}
 
-# Default disabled until you've added the secrets and verified locally.
-# To enable, set the repo variable LATENCY_LAB_ENABLED=true in repo settings.
+# Disabled until repo variable LATENCY_LAB_ENABLED=true is set.
 
 permissions:
   contents: write
@@ -45,13 +44,27 @@ jobs:
           git config user.name "latency-lab-bot"
           git config user.email "latency-lab@users.noreply.github.com"
 
+      - name: Probe API connectivity
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+        run: |
+          echo "anthropic probe:"
+          curl -s -o /dev/null -w "  HTTP=%{http_code}\n" \
+            -H "x-api-key: $ANTHROPIC_API_KEY" \
+            -H "anthropic-version: 2023-06-01" \
+            "https://api.anthropic.com/v1/models"
+          echo "elevenlabs probe:"
+          curl -s -o /dev/null -w "  HTTP=%{http_code}\n" \
+            -H "xi-api-key: $ELEVENLABS_API_KEY" \
+            "https://api.elevenlabs.io/v1/user"
+
       - name: Run agent (one experiment)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
         run: |
-          # Optional: write Google credentials to disk if provided
           if [ -n "${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}" ]; then
             echo "$GOOGLE_APPLICATION_CREDENTIALS_JSON" > /tmp/gcp.json
             export GOOGLE_APPLICATION_CREDENTIALS=/tmp/gcp.json
@@ -59,14 +72,22 @@ jobs:
 
           claude \
             --dangerously-skip-permissions \
+            --verbose \
             --print \
-            "Read latency_lab/program.md and execute one experiment exactly as instructed. Then stop."
+            "Read latency_lab/program.md and follow it. IMPORTANT: do NOT run any git commands — the workflow will commit and push for you. Just edit files and stop."
+
+      - name: Show working tree changes
+        run: |
+          echo "=== git status ==="
+          git status --short
+          echo "=== last experiment row ==="
+          tail -n 1 latency_lab/experiments.jsonl || true
 
       - name: Push results
         run: |
           if [ -n "$(git status --porcelain)" ]; then
             git add latency_lab/config.json latency_lab/experiments.jsonl
-            git commit -m "lab: hourly run $(date -u +%Y-%m-%dT%H:%MZ)" || true
+            git commit -m "lab: $(date -u +%Y-%m-%dT%H:%MZ) hourly run"
             git push origin latency-lab-results
           else
             echo "no changes to push"
