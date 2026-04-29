@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>latency lab · roleplay-coach</title>
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+<header>
+  <h1>latency lab</h1>
+  <div class="meta">
+    <span id="status-dot" class="dot dot-idle" title="idle"></span>
+    <span id="status-text">loading...</span>
+    <span class="sep">·</span>
+    <span id="last-updated">—</span>
+    <span class="sep">·</span>
+    <a href="https://github.com/edwin813/roleplay-coach/tree/latency-lab-results/latency_lab" target="_blank" rel="noopener">source</a>
+  </div>
+</header>
+
+<section id="summary">
+  <div class="card">
+    <div class="label">best p95</div>
+    <div class="value" id="best-p95">—</div>
+    <div class="sub" id="best-config">—</div>
+  </div>
+  <div class="card">
+    <div class="label">latest p95</div>
+    <div class="value" id="latest-p95">—</div>
+    <div class="sub" id="latest-decision">—</div>
+  </div>
+  <div class="card">
+    <div class="label">runs</div>
+    <div class="value" id="run-count">—</div>
+    <div class="sub" id="run-counts-detail">—</div>
+  </div>
+  <div class="card">
+    <div class="label">latest quality</div>
+    <div class="value" id="latest-quality">—</div>
+    <div class="sub">/ 10</div>
+  </div>
+</section>
+
+<section id="timeline-section">
+  <h2>timeline</h2>
+  <div class="chart-wrap"><canvas id="timeline"></canvas></div>
+</section>
+
+<section id="leaderboard-section">
+  <h2>leaderboard — top 10 by p95</h2>
+  <table id="leaderboard">
+    <thead><tr><th>#</th><th>model</th><th>tts</th><th>tokens</th><th>cache</th><th>p95</th><th>p50</th><th>q</th><th>when</th></tr></thead>
+    <tbody></tbody>
+  </table>
+</section>
+
+<section id="latest-section">
+  <h2>latest experiment</h2>
+  <pre id="latest-json">loading...</pre>
+</section>
+
+<script src="app.js"></script>
+</body>
+</html>

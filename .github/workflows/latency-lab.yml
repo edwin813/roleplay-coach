@@ -44,6 +44,19 @@ jobs:
           git config user.name "latency-lab-bot"
           git config user.email "latency-lab@users.noreply.github.com"
 
+      - name: Telegram — research starting
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          if [ -z "${TELEGRAM_BOT_TOKEN:-}" ]; then echo "no telegram token, skip"; exit 0; fi
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d parse_mode=HTML \
+            --data-urlencode "text=🔬 <b>latency lab</b> — researching... <a href=\"${RUN_URL}\">view run</a>" \
+            > /dev/null
+
       - name: Probe API connectivity
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
@@ -92,3 +105,21 @@ jobs:
           else
             echo "no changes to push"
           fi
+
+      - name: Telegram — research result
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          DASHBOARD_URL: https://edwin813.github.io/roleplay-coach/
+          JOB_STATUS: ${{ job.status }}
+        run: |
+          if [ -z "${TELEGRAM_BOT_TOKEN:-}" ]; then echo "no telegram token, skip"; exit 0; fi
+          TEXT=$(python3 latency_lab/format_telegram.py)
+          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -d chat_id="${TELEGRAM_CHAT_ID}" \
+            -d parse_mode=HTML \
+            -d disable_web_page_preview=true \
+            --data-urlencode "text=${TEXT}" \
+            > /dev/null
