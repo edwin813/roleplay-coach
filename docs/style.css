@@ -37,7 +37,21 @@ header h1 { margin: 0; font-size: 20px; font-weight: 600; letter-spacing: -0.01e
 .card .sub { color: var(--muted); font-size: 12px; margin-top: 4px; }
 
 section { margin-bottom: 28px; }
-section h2 { font-size: 14px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 12px; }
+section h2 { font-size: 14px; font-weight: 600; color: var(--text); margin: 0 0 4px; }
+.legend { color: var(--muted); font-size: 13px; margin: 0 0 24px; max-width: 720px; }
+.hint { color: var(--muted); font-size: 12px; margin: 0 0 12px; }
+
+.latest-summary { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 16px 20px; }
+.latest-decision { font-size: 18px; font-weight: 600; margin-bottom: 12px; }
+.latest-row { padding: 4px 0; font-size: 13px; }
+.latest-key { color: var(--muted); margin-right: 6px; }
+.latest-notes { margin-top: 8px; padding-top: 8px; border-top: 1px solid var(--border); color: var(--muted); font-style: italic; }
+.latest-error { color: var(--loss); }
+.muted { color: var(--muted); }
+
+details { margin-top: 16px; }
+details summary { cursor: pointer; color: var(--muted); font-size: 12px; padding: 4px 0; }
+details summary:hover { color: var(--text); }
 
 .chart-wrap { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 16px; height: 320px; }
 

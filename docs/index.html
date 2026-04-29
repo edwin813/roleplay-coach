@@ -9,7 +9,7 @@
 </head>
 <body>
 <header>
-  <h1>latency lab</h1>
+  <h1>Latency Lab</h1>
   <div class="meta">
     <span id="status-dot" class="dot dot-idle" title="idle"></span>
     <span id="status-text">loading...</span>
@@ -20,45 +20,66 @@
   </div>
 </header>
 
+<p class="legend">
+  This page tracks an automated experiment that tweaks the AI roleplay coach to make replies faster and more natural.
+  Each row below = one tweak tested against 20 sample conversations.
+</p>
+
 <section id="summary">
   <div class="card">
-    <div class="label">best p95</div>
+    <div class="label">Best reply time so far</div>
     <div class="value" id="best-p95">—</div>
     <div class="sub" id="best-config">—</div>
   </div>
   <div class="card">
-    <div class="label">latest p95</div>
+    <div class="label">Current reply time</div>
     <div class="value" id="latest-p95">—</div>
     <div class="sub" id="latest-decision">—</div>
   </div>
   <div class="card">
-    <div class="label">runs</div>
-    <div class="value" id="run-count">—</div>
-    <div class="sub" id="run-counts-detail">—</div>
+    <div class="label">How natural the AI sounds</div>
+    <div class="value" id="latest-quality">—</div>
+    <div class="sub">out of 10</div>
   </div>
   <div class="card">
-    <div class="label">latest quality</div>
-    <div class="value" id="latest-quality">—</div>
-    <div class="sub">/ 10</div>
+    <div class="label">Experiments tried</div>
+    <div class="value" id="run-count">—</div>
+    <div class="sub" id="run-counts-detail">—</div>
   </div>
 </section>
 
 <section id="timeline-section">
-  <h2>timeline</h2>
+  <h2>Reply time over time</h2>
+  <p class="hint">Lower is better. Green dots = a winning tweak. Red = didn't help. Yellow = run errored.</p>
   <div class="chart-wrap"><canvas id="timeline"></canvas></div>
 </section>
 
 <section id="leaderboard-section">
-  <h2>leaderboard — top 10 by p95</h2>
+  <h2>Top 10 fastest configurations</h2>
+  <p class="hint">Sorted by worst-case reply time (fastest first).</p>
   <table id="leaderboard">
-    <thead><tr><th>#</th><th>model</th><th>tts</th><th>tokens</th><th>cache</th><th>p95</th><th>p50</th><th>q</th><th>when</th></tr></thead>
+    <thead><tr>
+      <th>#</th>
+      <th>AI model</th>
+      <th>Voice</th>
+      <th>Reply length cap</th>
+      <th>Caching</th>
+      <th>Worst case</th>
+      <th>Typical</th>
+      <th>Naturalness</th>
+      <th>When</th>
+    </tr></thead>
     <tbody></tbody>
   </table>
 </section>
 
 <section id="latest-section">
-  <h2>latest experiment</h2>
-  <pre id="latest-json">loading...</pre>
+  <h2>Latest experiment</h2>
+  <div id="latest-summary" class="latest-summary">loading...</div>
+  <details>
+    <summary>Show raw data (for debugging)</summary>
+    <pre id="latest-json">loading...</pre>
+  </details>
 </section>
 
 <script src="app.js"></script>
