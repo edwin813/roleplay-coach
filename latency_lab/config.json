@@ -1,0 +1,26 @@
+{
+  "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
+
+  "claude_model": "claude-sonnet-4-6",
+  "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
+
+  "claude_max_tokens": 150,
+  "_claude_max_tokens_range": "30-300",
+
+  "claude_streaming": true,
+
+  "prompt_caching": false,
+
+  "system_prompt_version": "v1_baseline",
+  "_system_prompt_versions": "Defined in runner.py SYSTEM_PROMPTS dict. Add a new version there only if you must — but you can't edit runner.py, so prefer existing versions.",
+
+  "tts_provider": "elevenlabs",
+  "_tts_provider_options": ["elevenlabs", "google"],
+
+  "tts_model": "eleven_turbo_v2_5",
+  "_tts_model_options_elevenlabs": ["eleven_turbo_v2_5", "eleven_flash_v2_5"],
+  "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
+
+  "tts_voice_id": "EXAVITQu4vr4xnSDxMaL",
+  "_tts_voice_id_note": "ElevenLabs voice ID. Default is Sarah."
+}

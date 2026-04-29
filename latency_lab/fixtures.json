@@ -1,0 +1,137 @@
+{
+  "_comment": "Frozen test set. DO NOT MODIFY without resetting experiments.jsonl — comparability across runs depends on this file being constant. Each fixture is one turn: prior conversation context + the trainee's just-said line. The runner sends this to Claude and measures latency of the AI customer's reply.",
+  "fixtures": [
+    {
+      "id": "f01_intro_busy",
+      "context": [],
+      "trainee_utterance": "Hi, this is Edwin from AO. I'm reaching out because Sarah listed you as someone she cares about — do you have just two minutes for me to share why she filled out that card?"
+    },
+    {
+      "id": "f02_intro_skeptical",
+      "context": [],
+      "trainee_utterance": "Hey, I'm calling because your sister Maria signed up for free benefits and listed you as a beneficiary. Can I walk you through what she set up for you?"
+    },
+    {
+      "id": "f03_objection_price",
+      "context": [
+        {"role": "trainee", "text": "These benefits start at around twenty-something dollars a month for the level most families pick."},
+        {"role": "customer", "text": "That's more than I expected. I'm on a tight budget right now."}
+      ],
+      "trainee_utterance": "I totally understand. Can I ask — what would you say is the most important thing for your family if something happened to you tomorrow?"
+    },
+    {
+      "id": "f04_objection_spouse",
+      "context": [
+        {"role": "trainee", "text": "Based on your situation, the plan that fits would run about thirty-five a month."},
+        {"role": "customer", "text": "I'd need to talk to my husband before making any decisions like this."}
+      ],
+      "trainee_utterance": "Absolutely — that makes total sense. When you talk to him tonight, what do you think he'll want to know first?"
+    },
+    {
+      "id": "f05_objection_already_have",
+      "context": [
+        {"role": "customer", "text": "I already have life insurance through my job, so I'm covered."}
+      ],
+      "trainee_utterance": "That's great that your employer offers something. Real quick — do you know if that coverage stays with you if you ever leave that job?"
+    },
+    {
+      "id": "f06_objection_think_about_it",
+      "context": [
+        {"role": "trainee", "text": "So based on everything we've talked about, this plan covers your kids and your wife for the next 20 years for thirty-eight a month."},
+        {"role": "customer", "text": "Let me think about it and I'll call you back."}
+      ],
+      "trainee_utterance": "Of course. Can I ask — is there a specific piece you're not sure about, or is it more of a gut feeling?"
+    },
+    {
+      "id": "f07_objection_scam",
+      "context": [],
+      "trainee_utterance": "Hi, this is Edwin from American Income Life. Your nephew Jason filled out a card asking us to reach out to you about no-cost benefits."
+    },
+    {
+      "id": "f08_objection_no_time",
+      "context": [],
+      "trainee_utterance": "Hey, I know you're busy — I'll keep this quick. Your friend Marcus listed you on a benefits card. Is now bad or should I call back tonight?"
+    },
+    {
+      "id": "f09_qualifying_kids",
+      "context": [
+        {"role": "trainee", "text": "Just so I can find the right plan — do you have any children at home?"},
+        {"role": "customer", "text": "Yeah, two kids — eight and twelve."}
+      ],
+      "trainee_utterance": "Beautiful. And if something happened to you, who would be the one taking care of them financially?"
+    },
+    {
+      "id": "f10_objection_health",
+      "context": [
+        {"role": "trainee", "text": "Have you had any major health issues in the last few years?"},
+        {"role": "customer", "text": "I had a heart issue two years ago. Does that disqualify me?"}
+      ],
+      "trainee_utterance": "Not at all — we work with people in all kinds of situations. Are you currently being treated or have you been cleared by your doctor?"
+    },
+    {
+      "id": "f11_objection_too_young",
+      "context": [],
+      "trainee_utterance": "Your cousin Tasha signed you up for some no-cost benefits. The whole reason we do this is because most people don't think about it until it's too late — does that make sense?"
+    },
+    {
+      "id": "f12_objection_send_info",
+      "context": [
+        {"role": "customer", "text": "Can you just email me the information?"}
+      ],
+      "trainee_utterance": "I can definitely send you something afterwards. The reason I called personally is because the benefits are different for everyone — let me ask you two quick questions so I send the right info, sounds fair?"
+    },
+    {
+      "id": "f13_close_assumptive",
+      "context": [
+        {"role": "trainee", "text": "So this plan covers you and the kids for $42 a month, lifetime rate, never goes up."},
+        {"role": "customer", "text": "Okay that actually sounds reasonable."}
+      ],
+      "trainee_utterance": "Perfect. The way we get this started is just verifying a few details — what's the best routing number for the account you'd like this drafted from on the 1st?"
+    },
+    {
+      "id": "f14_objection_not_interested",
+      "context": [],
+      "trainee_utterance": "I hear you — but real quick, do you even know what your friend signed up for? Most people are surprised. Two minutes."
+    },
+    {
+      "id": "f15_objection_call_later",
+      "context": [],
+      "trainee_utterance": "No problem. What time tonight works better — six or seven thirty?"
+    },
+    {
+      "id": "f16_qualifying_income",
+      "context": [
+        {"role": "trainee", "text": "And the plan amount is based on what you'd want your family to receive — do you have a number in mind?"},
+        {"role": "customer", "text": "I have no idea, I've never thought about it."}
+      ],
+      "trainee_utterance": "That's super common. A simple way to think about it — if you weren't here next month, how many years of your income would you want replaced for them?"
+    },
+    {
+      "id": "f17_objection_competitor",
+      "context": [
+        {"role": "customer", "text": "I just got a quote from State Farm last week."}
+      ],
+      "trainee_utterance": "Okay, totally fair. Out of curiosity — did they include accidental coverage for the kids in that quote, or just you?"
+    },
+    {
+      "id": "f18_objection_dont_remember",
+      "context": [],
+      "trainee_utterance": "It's all good — your sister Lina filled it out at her work, she probably mentioned your name when they asked who she'd want covered. Does that ring a bell?"
+    },
+    {
+      "id": "f19_close_followup",
+      "context": [
+        {"role": "trainee", "text": "Once we wrap this up, the policy is active in 24 hours — sound good?"},
+        {"role": "customer", "text": "Wait, I want to double-check with my sister first."}
+      ],
+      "trainee_utterance": "I respect that. Can we three-way her in right now? I have two minutes and it'll save you a callback."
+    },
+    {
+      "id": "f20_objection_pushy",
+      "context": [
+        {"role": "customer", "text": "You're being kind of pushy. I don't appreciate that."}
+      ],
+      "trainee_utterance": "You're right — I apologize. I'm not trying to push you into anything. My only job is to make sure you understand what your friend set up for you. Want me to back off and just give you the basics?"
+    }
+  ]
+}
