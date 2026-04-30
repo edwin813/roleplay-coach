@@ -1,11 +1,16 @@
 name: latency-lab
 
 on:
-  schedule:
-    - cron: "*/30 * * * *"  # every 30 minutes; concurrency.serialized so runs queue safely
+  repository_dispatch:
+    types: [latency-lab-tick]   # primary trigger: external cron (cron-job.org) → GitHub API
   workflow_dispatch: {}
+  schedule:
+    - cron: "7,37 * * * *"      # belt-and-suspenders backup; off-peak minutes are less likely to be dropped by GitHub's scheduler
 
 # Disabled until repo variable LATENCY_LAB_ENABLED=true is set.
+# GitHub's `schedule:` triggers drop ~75% of fires during peak load — see plan
+# notes from 2026-04-30. The repository_dispatch path from cron-job.org is the
+# reliable fire path; the cron above is just a safety net.
 
 permissions:
   contents: write
@@ -51,11 +56,11 @@ jobs:
           RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           if [ -z "${TELEGRAM_BOT_TOKEN:-}" ]; then echo "no telegram token, skip"; exit 0; fi
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -w "\nHTTP=%{http_code}\n" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
             -d parse_mode=HTML \
-            --data-urlencode "text=🔬 Testing 3 new tweaks — results in ~10–15 min..." \
-            > /dev/null
+            --data-urlencode "text=🔬 Testing 3 new tweaks — results in ~10–15 min..."
 
       - name: Probe API connectivity
         env:
@@ -138,9 +143,9 @@ jobs:
         run: |
           if [ -z "${TELEGRAM_BOT_TOKEN:-}" ]; then echo "no telegram token, skip"; exit 0; fi
           TEXT=$(python3 latency_lab/format_telegram.py)
-          curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+          curl -sS -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+            -w "\nHTTP=%{http_code}\n" \
             -d chat_id="${TELEGRAM_CHAT_ID}" \
             -d parse_mode=HTML \
             -d disable_web_page_preview=true \
-            --data-urlencode "text=${TEXT}" \
-            > /dev/null
+            --data-urlencode "text=${TEXT}"
