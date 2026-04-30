@@ -1,16 +1,16 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, prompt_caching=true — best config so far at p95=970ms.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, prompt_caching=false, max_tokens=200 — best config so far at p95=951ms.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
-  "claude_max_tokens": 150,
+  "claude_max_tokens": 200,
   "_claude_max_tokens_range": "30-300",
 
   "claude_streaming": true,
 
-  "prompt_caching": true,
+  "prompt_caching": false,
 
   "system_prompt_version": "v1_baseline",
   "_system_prompt_versions": "Defined in runner.py SYSTEM_PROMPTS dict. Add a new version there only if you must — but you can't edit runner.py, so prefer existing versions.",
