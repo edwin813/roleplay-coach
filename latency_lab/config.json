@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. v2_terse produces shorter replies cutting TTS TTFB to ~190ms p95; max_tokens=150 is confirmed optimal (70/120/130/140/145/160/175 all LOSS). All deepgram voices except arcas-en have high TTS TTFB: asteria ~427ms, orion ~451ms, thalia LOSS, luna LOSS, hera ~353ms, zeus ~358ms — arcas-en uniquely fast at ~190ms p95. ElevenLabs exhausted; Google unconfigured; cartesia LOSS (sonic-2 and sonic-turbo both tested). streaming=true confirmed optimal. v1_baseline LOSS (longer replies). Search space exhausted.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. v2_terse produces shorter replies cutting TTS TTFB to ~190ms p95; max_tokens=150 is confirmed optimal (70/100/110/120/130/140/145/160/175 all LOSS). All deepgram voices except arcas-en have high TTS TTFB: asteria ~427ms, orion ~451ms, thalia LOSS, luna LOSS, hera ~353ms, zeus ~358ms — arcas-en uniquely fast at ~190ms p95. ElevenLabs exhausted; Google unconfigured; cartesia LOSS (sonic-2 and sonic-turbo both tested). streaming=true confirmed optimal. v1_baseline LOSS (longer replies). v3_warmer LOSS (longer replies, ~380ms TTS TTFB). Search space exhausted.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
