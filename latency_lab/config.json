@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. v2_terse produces shorter replies cutting TTS TTFB to ~190ms p95; max_tokens=150 fits the terse reply style. prompt_caching=true adds TTFT variance on short prompts. Deepgram alternatives all disproven; ElevenLabs exhausted; Google unconfigured. Cartesia sonic-2 and sonic-turbo both LOSS due to higher TTS TTFB and TTFT outliers. max_tokens reductions (80/100/120) all LOSS even with v2_terse. asteria-en and thalia-en have high TTS TTFB with v2_terse (~350-430ms p95 vs arcas ~195ms). claude_streaming=false confirmed huge LOSS (p95=1572ms). Search space nearly exhausted.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. v2_terse produces shorter replies cutting TTS TTFB to ~190ms p95; max_tokens=150 is the exact optimum (140/160/175 all LOSS). All deepgram voices except arcas-en have TTFT outliers regardless of text length. ElevenLabs exhausted; Google unconfigured; cartesia LOSS. Search space exhausted.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
