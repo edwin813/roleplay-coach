@@ -150,7 +150,64 @@ def measure_tts_ttfb(text: str, provider: str, model: str, voice_id: str) -> flo
         return _tts_ttfb_elevenlabs(text, model, voice_id)
     if provider == "google":
         return _tts_ttfb_google(text, model)
+    if provider == "cartesia":
+        return _tts_ttfb_cartesia(text, model, voice_id)
+    if provider == "deepgram":
+        return _tts_ttfb_deepgram(text, voice_id)
     raise ValueError(f"unknown tts provider: {provider}")
+
+
+def _tts_ttfb_cartesia(text: str, model: str, voice_id: str) -> float:
+    import requests
+
+    api_key = os.environ.get("CARTESIA_API_KEY")
+    if not api_key:
+        raise RuntimeError("CARTESIA_API_KEY not set")
+    url = "https://api.cartesia.ai/tts/bytes"
+    headers = {
+        "X-API-Key": api_key,
+        "Cartesia-Version": "2024-11-13",
+        "Content-Type": "application/json",
+    }
+    payload = {
+        "model_id": model,
+        "transcript": text,
+        "voice": {"mode": "id", "id": voice_id},
+        "output_format": {
+            "container": "mp3",
+            "sample_rate": 44100,
+            "bit_rate": 128000,
+        },
+        "language": "en",
+    }
+    t_start = time.perf_counter()
+    with requests.post(url, json=payload, headers=headers, stream=True, timeout=30) as r:
+        r.raise_for_status()
+        for _chunk in r.iter_content(chunk_size=1024):
+            t_first = time.perf_counter()
+            return (t_first - t_start) * 1000.0
+    return (time.perf_counter() - t_start) * 1000.0
+
+
+def _tts_ttfb_deepgram(text: str, voice_model: str) -> float:
+    import requests
+
+    api_key = os.environ.get("DEEPGRAM_API_KEY")
+    if not api_key:
+        raise RuntimeError("DEEPGRAM_API_KEY not set")
+    url = f"https://api.deepgram.com/v1/speak?model={voice_model}&encoding=mp3"
+    headers = {
+        "Authorization": f"Token {api_key}",
+        "Content-Type": "application/json",
+    }
+    payload = {"text": text}
+    t_start = time.perf_counter()
+    with requests.post(url, json=payload, headers=headers, stream=True, timeout=30) as r:
+        r.raise_for_status()
+        for _chunk in r.iter_content(chunk_size=1024):
+            t_first = time.perf_counter()
+            return (t_first - t_start) * 1000.0
+    return (time.perf_counter() - t_start) * 1000.0
 
 
 def _tts_ttfb_elevenlabs(text: str, model: str, voice_id: str) -> float:

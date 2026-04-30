@@ -16,12 +16,16 @@
   "_system_prompt_versions": "Defined in runner.py SYSTEM_PROMPTS dict. Add a new version there only if you must — but you can't edit runner.py, so prefer existing versions.",
 
   "tts_provider": "elevenlabs",
-  "_tts_provider_options": ["elevenlabs", "google"],
+  "_tts_provider_options": ["elevenlabs", "cartesia", "deepgram", "google"],
+  "_tts_provider_note": "elevenlabs free tier exhausted as of 2026-04 — quota_exceeded until next monthly reset. Use cartesia or deepgram for any new experiments. google requires GOOGLE_APPLICATION_CREDENTIALS_JSON secret which is NOT set in CI — google experiments will fail with DefaultCredentialsError, do not waste invocations on them.",
 
   "tts_model": "eleven_flash_v2_5",
   "_tts_model_options_elevenlabs": ["eleven_turbo_v2_5", "eleven_flash_v2_5"],
+  "_tts_model_options_cartesia": ["sonic-2", "sonic-turbo"],
+  "_tts_model_options_deepgram": ["aura-2-arcas-en", "aura-2-thalia-en", "aura-2-asteria-en", "aura-2-luna-en", "aura-2-stella-en"],
   "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
+  "_tts_model_note_deepgram": "For deepgram, tts_model is the voice/model name (same string as tts_voice_id) — runner reads voice_id, model field is informational.",
 
   "tts_voice_id": "EXAVITQu4vr4xnSDxMaL",
-  "_tts_voice_id_note": "ElevenLabs voice ID. Default is Sarah."
+  "_tts_voice_id_note": "Voice ID per provider. ElevenLabs default 'Sarah' = EXAVITQu4vr4xnSDxMaL. Cartesia default (warm female US English) = 87286a8d-7ea7-4235-a41a-dd9fa6630feb. Deepgram default = aura-2-arcas-en (deepgram uses voice_id directly as the model name in the URL)."
 }

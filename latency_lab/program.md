@@ -45,12 +45,12 @@ You run **3 experiments per invocation**, sequentially, in a loop. Each experime
 
 When in doubt, try in this order — these are expected to have the largest impact first:
 
-1. `claude_model` — Haiku 4.5 is dramatically faster TTFT than Sonnet 4.6 or Opus 4.7.
-2. `tts_model` — `eleven_flash_v2_5` is ~75ms TTFB vs ~250ms for `eleven_turbo_v2_5`.
-3. `prompt_caching` — large wins on cached system prompts.
-4. `claude_max_tokens` — shorter responses = lower `claude_total_ms`, but watch quality.
-5. `system_prompt_version` — trim the persona prompt; every token costs latency.
-6. `tts_provider` — google vs elevenlabs.
+1. `tts_provider` — biggest unexplored lever. Cartesia Sonic (~40ms TTFB) and Deepgram Aura-2 (~90ms) are both expected to beat ElevenLabs Flash (~75-150ms). Try `cartesia` with `sonic-2` first — likely the single largest TTFB win available. NOTE: ElevenLabs free tier is exhausted as of 2026-04-29 (quota_exceeded), so ElevenLabs experiments will return HTTP 401 until quota resets monthly — log as ERROR and skip. Do NOT pick `google` — `GOOGLE_APPLICATION_CREDENTIALS_JSON` secret is not configured in CI, all 20 fixtures will DefaultCredentialsError.
+2. `claude_model` — Haiku 4.5 is dramatically faster TTFT than Sonnet 4.6 or Opus 4.7.
+3. `tts_model` — within ElevenLabs, `eleven_flash_v2_5` is ~75ms TTFB vs ~250ms for `eleven_turbo_v2_5`. Within Cartesia, `sonic-turbo` is fastest but caps at 500 chars (fine for 1-3 sentence replies); `sonic-2` is the safe default.
+4. `prompt_caching` — large wins on cached system prompts.
+5. `claude_max_tokens` — shorter responses = lower `claude_total_ms`, but watch quality.
+6. `system_prompt_version` — trim the persona prompt; every token costs latency.
 
 ## Logging discipline
 
