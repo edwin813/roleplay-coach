@@ -22,7 +22,8 @@
   "tts_model": "aura-2-arcas-en",
   "_tts_model_options_elevenlabs": ["eleven_turbo_v2_5", "eleven_flash_v2_5"],
   "_tts_model_options_cartesia": ["sonic-2", "sonic-turbo"],
-  "_tts_model_options_deepgram": ["aura-2-arcas-en", "aura-2-thalia-en", "aura-2-asteria-en", "aura-2-luna-en", "aura-2-stella-en"],
+  "_tts_model_options_deepgram": ["aura-2-arcas-en", "aura-2-thalia-en", "aura-2-asteria-en", "aura-2-luna-en"],
+  "_tts_model_notes_deepgram_invalid": "aura-2-stella-en returns HTTP 400 on all fixtures — does not exist in Deepgram API as of 2026-04-30",
   "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
   "_tts_model_note_deepgram": "For deepgram, tts_model is the voice/model name (same string as tts_voice_id) — runner reads voice_id, model field is informational.",
 
