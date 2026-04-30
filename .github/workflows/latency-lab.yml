@@ -61,6 +61,8 @@ jobs:
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          CARTESIA_API_KEY: ${{ secrets.CARTESIA_API_KEY }}
+          DEEPGRAM_API_KEY: ${{ secrets.DEEPGRAM_API_KEY }}
         run: |
           echo "anthropic probe:"
           curl -s -o /dev/null -w "  HTTP=%{http_code}\n" \
@@ -71,11 +73,30 @@ jobs:
           curl -s -o /dev/null -w "  HTTP=%{http_code}\n" \
             -H "xi-api-key: $ELEVENLABS_API_KEY" \
             "https://api.elevenlabs.io/v1/user"
+          if [ -n "${CARTESIA_API_KEY:-}" ]; then
+            echo "cartesia probe:"
+            curl -s -o /dev/null -w "  HTTP=%{http_code}\n" \
+              -H "X-API-Key: $CARTESIA_API_KEY" \
+              -H "Cartesia-Version: 2024-11-13" \
+              "https://api.cartesia.ai/voices"
+          else
+            echo "cartesia probe: SKIP (CARTESIA_API_KEY not set)"
+          fi
+          if [ -n "${DEEPGRAM_API_KEY:-}" ]; then
+            echo "deepgram probe:"
+            curl -s -o /dev/null -w "  HTTP=%{http_code}\n" \
+              -H "Authorization: Token $DEEPGRAM_API_KEY" \
+              "https://api.deepgram.com/v1/projects"
+          else
+            echo "deepgram probe: SKIP (DEEPGRAM_API_KEY not set)"
+          fi
 
       - name: Run agent (3 experiments per invocation)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
+          CARTESIA_API_KEY: ${{ secrets.CARTESIA_API_KEY }}
+          DEEPGRAM_API_KEY: ${{ secrets.DEEPGRAM_API_KEY }}
           GOOGLE_APPLICATION_CREDENTIALS_JSON: ${{ secrets.GOOGLE_APPLICATION_CREDENTIALS_JSON }}
         run: |
           if [ -n "${GOOGLE_APPLICATION_CREDENTIALS_JSON:-}" ]; then
