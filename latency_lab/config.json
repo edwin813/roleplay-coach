@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, prompt_caching=false, max_tokens=200 — best config so far at p95=951ms. Note: aura-2-orion-en has fast TTS TTFB (328ms p95) but lost due to Claude TTFT outlier.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, prompt_caching=false, max_tokens=200 — best config at p95=951ms. All Deepgram alternatives (orion/luna/thalia/asteria) consistently show higher TTFT variance; arcas-en is the uniquely stable voice. Cartesia sonic-2 clean test also LOSS (1059ms p95). Space appears exhausted for major gains without new TTS providers.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
@@ -24,7 +24,7 @@
   "_tts_model_options_cartesia": ["sonic-2", "sonic-turbo"],
   "_tts_model_options_deepgram": ["aura-2-arcas-en", "aura-2-thalia-en", "aura-2-asteria-en", "aura-2-luna-en", "aura-2-orion-en"],
   "_tts_model_notes_deepgram_invalid": "aura-2-stella-en and aura-2-helios-en return HTTP 400 on all fixtures — do not exist in Deepgram API as of 2026-04-30",
-  "_tts_model_notes_deepgram_orion": "aura-2-orion-en has fast TTS TTFB (p95=328ms vs arcas 411ms) but Claude TTFT outlier on f14 (2953ms) inflated total p95 to 1114ms; worth retrying in a stable run",
+  "_tts_model_notes_deepgram_voices_tested": "orion-en: LOSS x2 (TTFT outliers); luna-en: LOSS x2 (TTFT outliers); thalia-en: LOSS; asteria-en: LOSS; arcas-en uniquely stable — all alternatives disproven",
   "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
   "_tts_model_note_deepgram": "For deepgram, tts_model is the voice/model name (same string as tts_voice_id) — runner reads voice_id, model field is informational.",
 
