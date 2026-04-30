@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Switching tts_provider from cartesia to deepgram (aura-2-arcas-en) targeting ~90ms TTFB vs ~400ms Cartesia; should cut total_ms p95 from 1089ms to below 850ms.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, prompt_caching=true — best config so far at p95=970ms.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
