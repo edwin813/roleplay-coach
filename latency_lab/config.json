@@ -1,18 +1,18 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, prompt_caching=false, max_tokens=200 — best config at p95=951ms. All Deepgram alternatives (orion/luna/thalia/asteria) consistently show higher TTFT variance; arcas-en is the uniquely stable voice. Cartesia sonic-2 clean test also LOSS (1059ms p95). Space appears exhausted for major gains without new TTS providers.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. v2_terse produces shorter replies cutting TTS TTFB to ~190ms p95; max_tokens=150 fits the terse reply style. prompt_caching=true adds TTFT variance on short prompts. Deepgram alternatives all disproven; ElevenLabs exhausted; Google unconfigured.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
-  "claude_max_tokens": 200,
+  "claude_max_tokens": 150,
   "_claude_max_tokens_range": "30-300",
 
   "claude_streaming": true,
 
   "prompt_caching": false,
 
-  "system_prompt_version": "v1_baseline",
+  "system_prompt_version": "v2_terse",
   "_system_prompt_versions": "Defined in runner.py SYSTEM_PROMPTS dict. Add a new version there only if you must — but you can't edit runner.py, so prefer existing versions.",
 
   "tts_provider": "deepgram",
