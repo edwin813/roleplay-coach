@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. All max_tokens values 30/40/50/60/70/80/90/100/110/120/130/140/145/150/152/155/160/175/185/200/250 tested — 150 uniquely optimal. All deepgram voices tested — arcas-en uniquely fast. All system prompts tested. ElevenLabs exhausted. Google unconfigured. Cartesia LOSS. streaming=false LOSS. caching+v2_terse consistently LOSS. Search space fully exhausted.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. All max_tokens values 30/40/50/60/70/80/90/100/110/120/130/140/145/150/152/155/160/175/185/200/250 tested — 150 uniquely optimal. All deepgram voices tested — arcas-en uniquely fast. All system prompts tested. ElevenLabs exhausted. Google unconfigured. Cartesia LOSS. streaming=false LOSS. caching+v2_terse consistently LOSS. Search space fully exhausted. New unlisted voices tested: athena-en LOSS (TTS ~350ms), andromeda-en LOSS (TTS ~380ms), perseus-en ERROR (HTTP 400).",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
@@ -23,8 +23,8 @@
   "_tts_model_options_elevenlabs": ["eleven_turbo_v2_5", "eleven_flash_v2_5"],
   "_tts_model_options_cartesia": ["sonic-2", "sonic-turbo"],
   "_tts_model_options_deepgram": ["aura-2-arcas-en", "aura-2-thalia-en", "aura-2-asteria-en", "aura-2-luna-en", "aura-2-orion-en"],
-  "_tts_model_notes_deepgram_invalid": "aura-2-stella-en and aura-2-helios-en return HTTP 400 on all fixtures — do not exist in Deepgram API as of 2026-04-30",
-  "_tts_model_notes_deepgram_voices_tested": "orion-en: LOSS x2; luna-en: LOSS x2; thalia-en: LOSS; asteria-en: LOSS; hera-en: LOSS (mean 353ms TTS); zeus-en: LOSS (mean 358ms TTS); arcas-en uniquely stable at ~190ms p95 — all alternatives exhaustively disproven",
+  "_tts_model_notes_deepgram_invalid": "aura-2-stella-en, aura-2-helios-en, aura-2-perseus-en return HTTP 400 on all fixtures — do not exist in Deepgram API as of 2026-04-30",
+  "_tts_model_notes_deepgram_voices_tested": "orion-en: LOSS x2; luna-en: LOSS x2; thalia-en: LOSS; asteria-en: LOSS; hera-en: LOSS (mean 353ms TTS); zeus-en: LOSS (mean 358ms TTS); athena-en: LOSS (mean ~350ms TTS); andromeda-en: LOSS (mean ~380ms TTS); arcas-en uniquely stable at ~190ms p95 — all alternatives exhaustively disproven",
   "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
   "_tts_model_note_deepgram": "For deepgram, tts_model is the voice/model name (same string as tts_voice_id) — runner reads voice_id, model field is informational.",
 
