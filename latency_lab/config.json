@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Enabling prompt_caching=true will cache the system prompt across fixtures, cutting TTFT p95 below 760ms and total_ms p95 below 1130ms.",
+  "_hypothesis": "Switching tts_provider from cartesia to deepgram (aura-2-arcas-en) targeting ~90ms TTFB vs ~400ms Cartesia; should cut total_ms p95 from 1089ms to below 850ms.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
@@ -15,17 +15,17 @@
   "system_prompt_version": "v1_baseline",
   "_system_prompt_versions": "Defined in runner.py SYSTEM_PROMPTS dict. Add a new version there only if you must — but you can't edit runner.py, so prefer existing versions.",
 
-  "tts_provider": "cartesia",
+  "tts_provider": "deepgram",
   "_tts_provider_options": ["elevenlabs", "cartesia", "deepgram", "google"],
   "_tts_provider_note": "elevenlabs free tier exhausted as of 2026-04 — quota_exceeded until next monthly reset. Use cartesia or deepgram for any new experiments. google requires GOOGLE_APPLICATION_CREDENTIALS_JSON secret which is NOT set in CI — google experiments will fail with DefaultCredentialsError, do not waste invocations on them.",
 
-  "tts_model": "sonic-2",
+  "tts_model": "aura-2-arcas-en",
   "_tts_model_options_elevenlabs": ["eleven_turbo_v2_5", "eleven_flash_v2_5"],
   "_tts_model_options_cartesia": ["sonic-2", "sonic-turbo"],
   "_tts_model_options_deepgram": ["aura-2-arcas-en", "aura-2-thalia-en", "aura-2-asteria-en", "aura-2-luna-en", "aura-2-stella-en"],
   "_tts_model_options_google": ["en-US-Neural2-A", "en-US-Standard-A"],
   "_tts_model_note_deepgram": "For deepgram, tts_model is the voice/model name (same string as tts_voice_id) — runner reads voice_id, model field is informational.",
 
-  "tts_voice_id": "87286a8d-7ea7-4235-a41a-dd9fa6630feb",
+  "tts_voice_id": "aura-2-arcas-en",
   "_tts_voice_id_note": "Voice ID per provider. ElevenLabs default 'Sarah' = EXAVITQu4vr4xnSDxMaL. Cartesia default (warm female US English) = 87286a8d-7ea7-4235-a41a-dd9fa6630feb. Deepgram default = aura-2-arcas-en (deepgram uses voice_id directly as the model name in the URL)."
 }
