@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. All max_tokens values 50/70/80/90/100/110/120/130/140/145/150/152/155/160/175/200/250 tested — 150 uniquely optimal. All deepgram voices tested — arcas-en uniquely fast. All system prompts tested. ElevenLabs exhausted. Google unconfigured. Cartesia LOSS. streaming=false LOSS. caching+v2_terse consistently LOSS. Search space exhausted.",
+  "_hypothesis": "Baseline: deepgram/aura-2-arcas-en with haiku-4-5, v2_terse system prompt, max_tokens=150, prompt_caching=false — best config at p95=790ms, quality=8.5. All max_tokens values 30/40/50/60/70/80/90/100/110/120/130/140/145/150/152/155/160/175/185/200/250 tested — 150 uniquely optimal. All deepgram voices tested — arcas-en uniquely fast. All system prompts tested. ElevenLabs exhausted. Google unconfigured. Cartesia LOSS. streaming=false LOSS. caching+v2_terse consistently LOSS. Search space fully exhausted.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
