@@ -1,7 +1,7 @@
 {
   "_comment": "Levers the agent may tune. Only fields read by runner.py are honored.",
 
-  "_hypothesis": "Baseline: deepgram/aura-arcas-en (Aura v1) with haiku-4-5, v2_terse, max_tokens=150, caching=false — best config at p95=708ms, quality=8.5. Aura v1 arcas-en uniquely stable at ~86ms TTS TTFB. All other v1 voices tested: asteria LOSS (f01 spike 294ms), luna LOSS (unstable 200-250ms), zeus LOSS (218ms mean), orion LOSS (195ms mean), hera LOSS (168ms mean, f04/f15 spikes). All Aura-2 voices LOSS. ElevenLabs exhausted. Google unconfigured. Cartesia LOSS. All max_tokens tested (150 uniquely optimal). All system prompts tested (v2_terse best). caching consistently LOSS. streaming=false LOSS.",
+  "_hypothesis": "Baseline: deepgram/aura-arcas-en (Aura v1) with haiku-4-5, v2_terse, max_tokens=150, caching=false — best config at p95=708ms, quality=8.5. Aura v1 arcas-en uniquely stable at ~86ms TTS TTFB. All other v1 voices tested: asteria LOSS (f01 spike 294ms), luna LOSS (unstable 200-250ms), zeus LOSS (218ms mean), orion LOSS (195ms mean), hera LOSS (168ms mean, f04/f15 spikes), athena LOSS (195ms mean), stella LOSS (210ms mean, exists but slower). Thalia v1: HTTP 400 (only Aura-2). All Aura-2 voices LOSS. ElevenLabs exhausted. Google unconfigured. Cartesia LOSS. All max_tokens tested (150 uniquely optimal). All system prompts tested (v2_terse best). caching consistently LOSS. streaming=false LOSS. All known Deepgram levers exhausted.",
   "claude_model": "claude-haiku-4-5",
   "_claude_model_options": ["claude-haiku-4-5", "claude-sonnet-4-6", "claude-opus-4-7"],
 
